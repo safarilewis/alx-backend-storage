@@ -1,4 +1,4 @@
---creates users table with given attributes
+-- Creates users table with given attributes.
 DROP TABLE IF EXISTS users;
 CREATE TABLE users(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
