@@ -1,4 +1,4 @@
--- Creates a table users with given requirements
+-- Creates a table users with given requirements.
 DROP TABLE IF EXISTS users;
 CREATE TABLE USERS(
     id NOT NULL AUTO_INCREMENT PRIMARY KEY,
