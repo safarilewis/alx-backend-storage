@@ -9,4 +9,4 @@ def list_all(mongo_collection):
     if mongo_collection.find() == NULL:
         return []
     for doc in mongo_collection.find():
-        return doc
+        return [doc]
