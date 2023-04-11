@@ -7,5 +7,5 @@ def list_all(mongo_collection):
     """Returns collection"""
     if not mongo_collection.find():
         return []
-    for doc in mongo_collection.find():
-        return [doc]
+    return [doc for doc in mongo_collection.find()]
+       
