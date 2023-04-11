@@ -1,0 +1,2 @@
+// Script that finds a specific collection by name
+db.school.find({name: "Holberton School"})
