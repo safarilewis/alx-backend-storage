@@ -1,6 +1,5 @@
 // Script that updates a document
 db.school.update(
-    query: {name: "Holberton School"},
-    multi: true,
-    update: {$set{"address": "972 Mission street”}}
+    {name: "Holberton School"},
+    {$set: {"address": "972 Mission street"}},
 )
