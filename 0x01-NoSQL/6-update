@@ -1,0 +1,6 @@
+// Script that updates a document
+db.school.update(
+    query: {name: "Holberton School"},
+    multi: true,
+    update: {address: 972 Mission street”}
+)
