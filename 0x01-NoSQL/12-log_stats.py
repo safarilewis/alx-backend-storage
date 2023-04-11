@@ -21,5 +21,4 @@ def start():
     client = MongoClient(host="localhost", port=27017)
     nginx_logs_collection(client.logs.nginx)
 
-if __name__ == "--main__":
-    start()
+start()
