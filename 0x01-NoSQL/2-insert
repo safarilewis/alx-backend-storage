@@ -1,0 +1,2 @@
+// Script that inserts a document to a MongoDB collection
+db.school.inertOne({"name" : "Holberton School"})
