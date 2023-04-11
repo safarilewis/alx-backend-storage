@@ -4,4 +4,5 @@
 
 def schools_by_topic(mongo_collection, topic):
     '''Returns schools based on topics'''
-    return [mongo_collection.find_many({"topics": topic})]
+    result = mongo_collection.find_many({"topics": topic})
+    return result
