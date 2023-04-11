@@ -4,5 +4,5 @@
 
 def schools_by_topic(mongo_collection, topic):
     '''Queries schools based on topics'''
-    myquery = {"topics": topic}
-    return [doc for doc in mongo_collection.find_many(myquery)]
+    myquery = {"topics": {"$eq": topic}}
+    return [doc for doc in mongo_collection.find(myquery)]
