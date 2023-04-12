@@ -14,5 +14,5 @@ class Cache:
     def store(self, data: Union[str, bytes, int, float]) -> str:
         '''Stores item in redis'''
         data_id = str(uuid.uuid4())
-        self._redis.set(data_id, data)
+        self._redis.set(data, data_id)
         return data_id
