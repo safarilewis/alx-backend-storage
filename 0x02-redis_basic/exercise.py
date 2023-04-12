@@ -2,6 +2,7 @@
 '''Python file that perfoms basic operations using redis'''
 import redis
 import uuid
+from typing import Callable, Union, Any
 
 
 class Cache:
@@ -12,7 +13,7 @@ class Cache:
         self._redis.flushdb(True)
 
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        '''Stores item in redis'''
+        '''Stores items in redis'''
         data_id = str(uuid.uuid4())
         self._redis.set(data, data_id)
         return data_id
