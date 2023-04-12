@@ -6,7 +6,6 @@ import uuid
 
 class Cache:
     '''Class that represents a storage container'''
-
     def __init__(self) -> None:
         '''Initializes redis with set params'''
         self._redis = redis.Redis()
