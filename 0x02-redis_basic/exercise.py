@@ -17,4 +17,3 @@ class Cache:
         data_id = str(uuid.uuid4())
         self._redis.set(data_id, data)
         return data_id
-    
