@@ -15,6 +15,7 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return invoke
 
+
 def call_history(method: Callable) -> Callable:
     '''Stores the history of inputs and outputs of a particular func'''
     @wraps(method)
@@ -22,14 +23,32 @@ def call_history(method: Callable) -> Callable:
         '''Invokes the function'''
         input_key = '{}:inputs'.format(method.__qualname__)
         output_key = '{}:outputs'.format(method.__qualname__)
-        
+
         self._redis.rpush(input_key, str(args))
         output = method(self, *args, **kwargs)
 
         self._redis.rpush(output_key, output)
         return output
     return invoke
-
+def replay(fn: Callable) -> None:
+    '''Displays the call history of a Cache class' method.'''
+    redis_store = getattr(fn.__self__, '_redis', None)
+    
+    funct_name = fn.__qualname__
+    in_key = '{}:inputs'.format(funct_name)
+    out_key = '{}:outputs'.format(funct_name)
+    funct_call_count = 0
+    if redis_store.exists(fxn_name) != 0:
+        funct_call_count = int(redis_store.get(funct_name))
+    print('{} was called {} times:'.format(funct_name, funct_call_count))
+    funct_inputs = redis_store.lrange(in_key, 0, -1)
+    funct_outputs = redis_store.lrange(out_key, 0, -1)
+    for funct_input, fxn_output in zip(funct_inputs, funct_outputs):
+        print('{}(*{}) -> {}'.format(
+            funct_name,
+            funct_input.decode("utf-8"),
+            funct_output,
+        ))
 
 class Cache:
     '''Class that represents a storage container'''
