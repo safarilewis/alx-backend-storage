@@ -69,7 +69,8 @@ class Cache:
         self._redis.set(data_id, data)
         return data_id
 
-    def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
+    def get(self,
+            key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
         '''Get method that converts redis strings to UTF-8'''
         elem = self._redis.get(key)
         if fn is not None:
