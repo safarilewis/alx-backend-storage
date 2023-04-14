@@ -9,12 +9,26 @@ from functools import wraps
 def count_calls(method: Callable) -> Callable:
     '''Counts the number of times Cache has been called'''
     @wraps(method)
-    def invoke(self,*args,**kwargs):
+    def invoke(self, *args, **kwargs):
         '''Increases the count then perfoms the operation'''
         self._redis.incr(method.__qualname__)
-        return method(self, *args,**kwargs)
+        return method(self, *args, **kwargs)
     return invoke
 
+def call_history(method: Callable) -> Callable:
+    '''Stores the history of inputs and outputs of a particular func'''
+    @wraps(method)
+    def invoke(self, *args, **kwargs):
+        '''Invokes the function'''
+        input_key = '{}:inputs'.format(method.__qualname__)
+        output_key = '{}:outputs'.format(method.__qualname__)
+        
+        self._redis.rpush(input_key, str(args))
+        output = method(self, *args, **kwargs)
+
+        self._redis.rpush(output_key, output)
+        return output
+    return invoke
 
 
 class Cache:
@@ -26,6 +40,7 @@ class Cache:
         self._redis.flushdb(True)
 
     @count_calls
+    @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         '''Stores items in redis'''
         data_id = str(uuid.uuid4())
