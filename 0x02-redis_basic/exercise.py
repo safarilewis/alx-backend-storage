@@ -3,6 +3,18 @@
 import redis
 import uuid
 from typing import Callable, Union, Any
+from functools import wraps
+
+
+def count_calls(method: Callable) -> Callable:
+    '''Counts the number of times Cache has been called'''
+    @wraps(method)
+    def invoke(self,*args,**kwargs):
+        '''Increases the count then perfoms the operation'''
+        self._redis.incr(method.__qualname__)
+        return method(self, *args,**kwargs)
+    return invoke
+
 
 
 class Cache:
@@ -13,6 +25,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb(True)
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         '''Stores items in redis'''
         data_id = str(uuid.uuid4())
