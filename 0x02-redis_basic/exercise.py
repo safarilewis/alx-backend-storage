@@ -30,10 +30,12 @@ def call_history(method: Callable) -> Callable:
         self._redis.rpush(output_key, output)
         return output
     return invoke
+
+
 def replay(fn: Callable) -> None:
     '''Displays the call history of a Cache class' method.'''
     redis_store = getattr(fn.__self__, '_redis', None)
-    
+
     funct_name = fn.__qualname__
     in_key = '{}:inputs'.format(funct_name)
     out_key = '{}:outputs'.format(funct_name)
@@ -49,6 +51,7 @@ def replay(fn: Callable) -> None:
             funct_input.decode("utf-8"),
             funct_output,
         ))
+
 
 class Cache:
     '''Class that represents a storage container'''
